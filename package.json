@@ -16,9 +16,11 @@
     "@emotion/styled": "^11",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
+    "axios": "^0.26.1",
     "framer-motion": "^6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-router-dom": "^6.2.2",
     "typescript": "^4.6.3"
   },
   "devDependencies": {
@@ -29,6 +31,7 @@
     "babel-loader": "^8.2.4",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
+    "react-icons": "^4.3.1",
     "style-loader": "^3.3.1",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "webpack": "^5.70.0",
