@@ -1,21 +1,23 @@
+import React from "react";
 import { Box, SimpleGrid, Button } from "@chakra-ui/react";
 import RestaurantCard from "@/components/RestaurantCard";
-import { RestaurantParams } from "@/pages/Home/Restaurant/Restaurant";
+import { Restaurant, itemPerPage } from "@/pages/Home/Restaurant/Restaurant";
 
-interface RestaurantWrapper {
-  restaurants: RestaurantParams[];
-  page: number;
-  changePage: (page: number) => void;
-  loadMore: number;
+interface RestaurantList {
+  restaurants: Restaurant[];
 }
 
-const RestaurantWrapper = (props: RestaurantWrapper) => {
-  console.log(props.page, props.loadMore);
+const RestaurantList = (props: RestaurantList) => {
+  const [page, setPage] = React.useState(1);
+
+  const maxPage = Math.floor(props.restaurants.length / itemPerPage);
+
+  const paginatedRestaurant = props.restaurants.slice(0, itemPerPage * page);
 
   return (
     <Box>
       <SimpleGrid columns={[1, 2, 3, 4]} spacing={8}>
-        {props.restaurants.map((resto) => (
+        {paginatedRestaurant.map((resto) => (
           <RestaurantCard
             key={resto.id}
             title={resto.name}
@@ -27,7 +29,7 @@ const RestaurantWrapper = (props: RestaurantWrapper) => {
           />
         ))}
       </SimpleGrid>
-      {props.loadMore >= props.page && (
+      {maxPage >= page && (
         <Box
           w={36}
           border={"1px"}
@@ -40,7 +42,7 @@ const RestaurantWrapper = (props: RestaurantWrapper) => {
             borderColor={"gray.900"}
             bg={"white"}
             w={"full"}
-            onClick={() => props.changePage(props.page + 1)}
+            onClick={() => setPage((prevPage) => prevPage + 1)}
           >
             Load More
           </Button>
@@ -50,4 +52,4 @@ const RestaurantWrapper = (props: RestaurantWrapper) => {
   );
 };
 
-export default RestaurantWrapper;
+export default RestaurantList;
