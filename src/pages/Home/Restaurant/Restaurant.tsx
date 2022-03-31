@@ -2,9 +2,9 @@ import React from "react";
 import axios from "axios";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import RestaurantFilter from "@/components/RestaurantFilter";
-import RestaurantWrapper from "@/components/RestaurantWrapper";
+import RestaurantList from "@/components/RestaurantList";
 
-export interface RestaurantParams {
+export interface Restaurant {
   id: string;
   name: string;
   rating: number;
@@ -15,15 +15,16 @@ export interface RestaurantParams {
   };
   open: boolean;
 }
+
+export const itemPerPage = 8;
+
 const Restaurant = () => {
-  const [restaurants, setRestaurants] = React.useState<RestaurantParams[]>([]);
+  const [restaurants, setRestaurants] = React.useState<Restaurant[]>([]);
   const [restaurantIsOpen, setRestaurantIsOpen] =
     React.useState<boolean>(false);
   const [minPrice, setMinPrice] = React.useState(0);
   const [maxPrice, setMaxPrice] = React.useState(0);
-  const [categories, setCategories] = React.useState("");
-  const [page, setPage] = React.useState(1);
-  const [itemPerPage, setItemPerPage] = React.useState(8);
+  const [category, setCategory] = React.useState("");
 
   React.useEffect(() => {
     axios
@@ -32,8 +33,8 @@ const Restaurant = () => {
       .catch((err) => err);
   }, []);
 
-  const filteredCategoryRestaurant = restaurants
-    .filter((restaurant) => (restaurantIsOpen ? restaurant.open : restaurant))
+  const filteredRestaurant = restaurants
+    .filter((restaurant) => (restaurantIsOpen ? restaurant.open : true))
     .filter((restaurant) => {
       if (minPrice > 0 && maxPrice > 0) {
         return restaurant.price >= minPrice && restaurant.price <= maxPrice;
@@ -46,22 +47,15 @@ const Restaurant = () => {
       }
     })
     .filter((restaurant) =>
-      categories ? restaurant.category.name === categories : restaurant
+      category ? restaurant.category.name === category : restaurant
     );
 
   const clearFilter = () => {
     setRestaurantIsOpen(false);
     setMinPrice(0);
     setMaxPrice(0);
-    setCategories("");
+    setCategory("");
   };
-
-  const filteredRestaurant = filteredCategoryRestaurant.slice(
-    0,
-    itemPerPage * page
-  );
-
-  const loadMore = Math.floor(filteredRestaurant.length / itemPerPage);
 
   return (
     <Box>
@@ -73,21 +67,16 @@ const Restaurant = () => {
         eius, quam voluptatum fuga ad velit at iusto ipsum id ex.
       </Text>
       <RestaurantFilter
-        restaurantOpenClosed={restaurantIsOpen}
-        filterRestaurantOpenClosed={setRestaurantIsOpen}
+        isRestaurantOpen={restaurantIsOpen}
+        onFilterRestaurantOpen={setRestaurantIsOpen}
         minPrice={minPrice}
-        changeMinPrice={setMinPrice}
+        onChangeMinPrice={setMinPrice}
         maxPrice={maxPrice}
-        changeMaxPrice={setMaxPrice}
-        changeCategory={setCategories}
-        clearFilter={clearFilter}
+        onChangeMaxPrice={setMaxPrice}
+        onChangeCategory={setCategory}
+        onClearFilter={clearFilter}
       />
-      <RestaurantWrapper
-        restaurants={filteredRestaurant}
-        page={page}
-        changePage={setPage}
-        loadMore={loadMore}
-      />
+      <RestaurantList restaurants={filteredRestaurant} />
     </Box>
   );
 };

@@ -13,14 +13,14 @@ import {
 import axios from "axios";
 
 interface RestaurantFilterProps {
-  restaurantOpenClosed: boolean;
-  filterRestaurantOpenClosed: (isOpen: boolean) => void;
+  isRestaurantOpen: boolean;
+  onFilterRestaurantOpen: (isOpen: boolean) => void;
   minPrice: number;
-  changeMinPrice: (price: number) => void;
+  onChangeMinPrice: (price: number) => void;
   maxPrice: number;
-  changeMaxPrice: (price: number) => void;
-  changeCategory: (category: string) => void;
-  clearFilter: () => void;
+  onChangeMaxPrice: (price: number) => void;
+  onChangeCategory: (category: string) => void;
+  onClearFilter: () => void;
 }
 
 interface Category {
@@ -58,9 +58,7 @@ const RestaurantFilter = (props: RestaurantFilterProps) => {
           padding={2}
           alignItems={"center"}
           justifyContent={"space-around"}
-          onClick={() =>
-            props.filterRestaurantOpenClosed(!props.restaurantOpenClosed)
-          }
+          onClick={() => props.onFilterRestaurantOpen(!props.isRestaurantOpen)}
         >
           <Box
             width={4}
@@ -100,14 +98,14 @@ const RestaurantFilter = (props: RestaurantFilterProps) => {
             <Input
               type={"number"}
               value={props.minPrice}
-              onChange={(e) => props.changeMinPrice(e.target.valueAsNumber)}
+              onChange={(e) => props.onChangeMinPrice(e.target.valueAsNumber)}
               id="min-price"
             />
             <FormLabel htmlFor="max-price">Max Price</FormLabel>
             <Input
               type={"number"}
               value={props.maxPrice}
-              onChange={(e) => props.changeMaxPrice(e.target.valueAsNumber)}
+              onChange={(e) => props.onChangeMaxPrice(e.target.valueAsNumber)}
               id="max-price"
             />
           </FormControl>
@@ -116,7 +114,7 @@ const RestaurantFilter = (props: RestaurantFilterProps) => {
           width={32}
           borderColor={"black"}
           _hover={{ borderColor: "black" }}
-          onChange={(e) => props.changeCategory(e.target.value)}
+          onChange={(e) => props.onChangeCategory(e.target.value)}
         >
           <option>Categories</option>
           {categories.map((category) => (
@@ -127,7 +125,7 @@ const RestaurantFilter = (props: RestaurantFilterProps) => {
         </Select>
       </HStack>
       <Box border={"1px"} borderRadius={"8"} width={20} textAlign={"center"}>
-        <Button bg={"white"} w={"full"} onClick={() => props.clearFilter()}>
+        <Button bg={"white"} w={"full"} onClick={() => props.onClearFilter()}>
           Clear
         </Button>
       </Box>
