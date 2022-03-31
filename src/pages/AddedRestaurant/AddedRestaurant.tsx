@@ -8,6 +8,7 @@ const AddedRestaurant = () => {
   const [restaurantName, setRestaurantName] = React.useState("");
   const [restaurantRating, setRestaurantRating] = React.useState(1);
   const [restaurantPrice, setRestaurantPrice] = React.useState(0);
+  const [restaurantImage, setRestaurantImage] = React.useState("");
   const [restaurantCategory, setRestaurantCategory] = React.useState("");
   const [restaurantIsOpen, setRestaurantIsOpen] = React.useState(false);
 
@@ -16,10 +17,7 @@ const AddedRestaurant = () => {
     name: restaurantName,
     rating: restaurantRating,
     price: restaurantPrice,
-    images: [
-      "https://media-cdn.tripadvisor.com/media/photo-s/08/f0/6d/b2/latin-grill.jpg",
-      "https://media-cdn.tripadvisor.com/media/photo-s/10/34/b4/d1/latin-grill.jpg",
-    ],
+    images: [restaurantImage],
     category: {
       id: uuidV4(),
       name: restaurantCategory,
@@ -45,6 +43,8 @@ const AddedRestaurant = () => {
         rating={restaurantRating}
         onChangeRating={setRestaurantRating}
         price={restaurantPrice}
+        image={restaurantImage}
+        onChangeImage={setRestaurantImage}
         onChangePrice={setRestaurantPrice}
         category={restaurantCategory}
         onChangeCategory={setRestaurantCategory}

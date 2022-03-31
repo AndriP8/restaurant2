@@ -15,6 +15,8 @@ interface CreateRestaurantProps {
   onChangeRating: (rating: number) => void;
   price: number;
   onChangePrice: (price: number) => void;
+  image: string;
+  onChangeImage: (image: string) => void;
   category: string;
   onChangeCategory: (category: string) => void;
   onChangeRestaurantIsOpen: (isOpen: boolean) => void;
@@ -55,6 +57,13 @@ const CreateRestaurant = (props: CreateRestaurantProps) => {
           max={5}
           value={props.price}
           onChange={(e) => props.onChangePrice(e.target.valueAsNumber)}
+        />
+        <FormLabel htmlFor="image">Image</FormLabel>
+        <Input
+          id="image"
+          type="string"
+          value={props.image}
+          onChange={(e) => props.onChangeImage(e.target.value)}
         />
         <FormLabel htmlFor="category">Category</FormLabel>
         <Input
